@@ -18,6 +18,7 @@ const createDOM = (node: VirtualDOM): HTMLElement | Text => {
         const dataKey = _.camelCase(key.slice(5))
         element.dataset[dataKey] = node.props[key] as string
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-extra-semi
         ;(element as any)[key] = node.props[key]
       }
     }

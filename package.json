@@ -10,14 +10,22 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
+    "msw": "^2.2.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
     "vite-tsconfig-paths": "^4.3.1"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "lodash": "^4.17.21"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

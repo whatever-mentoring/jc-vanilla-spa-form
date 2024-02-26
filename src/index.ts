@@ -1,3 +1,4 @@
+import { worker } from './mocks/browser'
 import route, { Router } from '@/libs/router'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,5 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('popstate', route)
 
-  route()
+  if (process.env.NODE_ENV === 'development') {
+    worker.start({ onUnhandledRequest: 'bypass' }).then(() => route())
+  } else {
+    route()
+  }
 })

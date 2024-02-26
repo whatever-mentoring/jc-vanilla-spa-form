@@ -5,28 +5,30 @@ import { checkIsTextNode } from './utils/checkIsTextNode'
 
 export default function updateDOM(
   $parent: ChildNode,
-  oldNode?: VirtualDOM,
-  newNode?: VirtualDOM,
+  oldVDOM?: VirtualDOM,
+  newVDOM?: VirtualDOM,
   idx = 0,
 ) {
-  if (newNode === undefined) {
-    if (oldNode !== undefined) {
+  if (newVDOM == undefined) {
+    if (oldVDOM != undefined) {
       $parent.removeChild($parent.childNodes[idx])
       return true
     }
     return false
   }
 
-  if (oldNode === undefined) {
-    $parent.appendChild(createDOM(newNode))
+  if (oldVDOM == undefined) {
+    $parent.appendChild(createDOM(newVDOM))
     return false
   }
 
-  if (!checkIsSameVDOM(oldNode, newNode)) {
-    $parent.replaceChild(createDOM(newNode), $parent.childNodes[idx])
+  if (!checkIsSameVDOM(oldVDOM, newVDOM)) {
+    $parent.replaceChild(createDOM(newVDOM), $parent.childNodes[idx])
     return false
   }
 
+  const { node: newNode } = newVDOM
+  const { node: oldNode } = oldVDOM
   if (!checkIsTextNode(newNode) && !checkIsTextNode(oldNode)) {
     const length = Math.max(
       newNode.children?.length ?? 0,

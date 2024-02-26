@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component } from '@/libs/jsx/jsx-runtime'
 
-import { PageProps, VirtualDOM } from './types'
+import { PageProps } from './types'
 import updateDOM from './updateDOM'
 import shallowEqual from './utils/shallowEquals'
 
@@ -17,8 +17,8 @@ interface RenderObject {
   root?: Component<PageProps>
   $parent?: HTMLElement
   pageParams?: string[]
-  currentVDOM?: VirtualDOM
-  futureVDOM?: VirtualDOM
+  currentVDOM?: JSX.Element
+  futureVDOM?: JSX.Element
 }
 
 function valueToUI() {
@@ -39,11 +39,13 @@ function valueToUI() {
     renderInfo.futureVDOM = renderInfo.root?.({
       pageParams: renderInfo.pageParams,
     })
+
     updateDOM(
       renderInfo.$parent as ChildNode,
       renderInfo.currentVDOM,
       renderInfo.futureVDOM,
     )
+
     renderInfo.currentVDOM = renderInfo.futureVDOM
     values.effectList.forEach((effect) => effect())
   }

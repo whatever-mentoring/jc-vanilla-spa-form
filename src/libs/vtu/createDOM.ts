@@ -2,9 +2,14 @@ import _ from 'lodash'
 import { checkIsTextNode } from './utils/checkIsTextNode'
 import { VirtualDOM } from './types'
 
-const createDOM = (node: VirtualDOM): HTMLElement | Text => {
+const createDOM = (VDOM: VirtualDOM): HTMLElement | Text => {
+  const { node } = VDOM
+
   if (checkIsTextNode(node)) {
-    if (typeof node === 'object' && node != null) {
+    if (Array.isArray(node)) {
+      return document.createTextNode(node.toString())
+    }
+    if (typeof node === 'object' && node !== null) {
       return document.createTextNode(JSON.stringify(node))
     }
     return document.createTextNode(node == null ? '' : node.toString())
@@ -25,7 +30,9 @@ const createDOM = (node: VirtualDOM): HTMLElement | Text => {
   }
 
   node.children?.forEach((child) => {
-    element.append(createDOM(child))
+    if (child) {
+      element.append(createDOM(child))
+    }
   })
 
   return element

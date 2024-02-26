@@ -9,24 +9,20 @@ export default function updateDOM(
   newNode?: VirtualDOM,
   idx = 0,
 ) {
-  if (newNode == null) {
-    if (oldNode != null) {
+  if (newNode === undefined) {
+    if (oldNode !== undefined) {
       $parent.removeChild($parent.childNodes[idx])
       return true
     }
     return false
   }
 
-  if (oldNode == null) {
+  if (oldNode === undefined) {
     $parent.appendChild(createDOM(newNode))
     return false
   }
 
-  if (
-    oldNode != null &&
-    newNode != null &&
-    !checkIsSameVDOM(oldNode, newNode)
-  ) {
+  if (!checkIsSameVDOM(oldNode, newNode)) {
     $parent.replaceChild(createDOM(newNode), $parent.childNodes[idx])
     return false
   }
@@ -38,13 +34,13 @@ export default function updateDOM(
     )
     let nodeDeleteCnt = 0
     for (let i = 0; i < length; i++) {
-      const result = updateDOM(
+      const isNodeDeleted = updateDOM(
         $parent?.childNodes[idx],
         oldNode.children?.[i],
         newNode.children?.[i],
         i - nodeDeleteCnt,
       )
-      if (result) {
+      if (isNodeDeleted) {
         nodeDeleteCnt++
       }
     }

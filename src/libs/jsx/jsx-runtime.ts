@@ -28,12 +28,12 @@ export const jsx = {
       node: {
         tag: component,
         props,
-        children: children.map((v) => {
-          if (!checkIsVirtualNode(v)) {
+        children: children.flat(Infinity).map((v) => {
+          if (!checkIsVirtualNode(v as VirtualDOM | VirtualNode)) {
             return { node: v } as VirtualDOM
           }
           return v
-        }),
+        }) as VirtualDOM[],
       },
     }
   },

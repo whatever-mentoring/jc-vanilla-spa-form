@@ -1,5 +1,6 @@
 import { worker } from './mocks/browser'
 import route, { Router } from '@/libs/router'
+import './index.css'
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('click', (e) => {

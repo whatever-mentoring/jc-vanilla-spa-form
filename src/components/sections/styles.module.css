@@ -1,0 +1,40 @@
+.title {
+  font-size: 12pt;
+  font-weight: 400;
+}
+
+.asterisk {
+  color: #d33;
+  padding-left: 0.25em;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputWrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.inputWrapper input[type='radio'] {
+  width: 20px;
+  height: 20px;
+}
+
+.inputWrapper input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+.inputContainer .select {
+  position: relative;
+  width: 150px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}

@@ -6,7 +6,7 @@ declare global {
     type IntrinsicElements = {
       [elemName in keyof HTMLElementTagNameMap]: Record<string, unknown>
     }
-    type Element = VirtualDOM
+    type Element = VirtualDOM | null | undefined
   }
 }
 
@@ -19,7 +19,7 @@ export const jsx = {
     component: keyof HTMLElementTagNameMap | Component,
     props: Record<string, unknown> | null,
     ...children: (VirtualDOM | VirtualNode)[]
-  ): VirtualDOM {
+  ): JSX.Element {
     if (typeof component === 'function') {
       return component({ ...props, children })
     }

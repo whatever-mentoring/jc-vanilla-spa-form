@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-semi, @typescript-eslint/no-explicit-any */
 import { checkIsSameVDOM } from './utils/checkIsSameVDOM'
 import createDOM from './createDOM'
 import { VirtualDOM } from './types'
@@ -5,8 +6,8 @@ import { checkIsTextNode } from './utils/checkIsTextNode'
 
 export default function updateDOM(
   $parent: ChildNode,
-  oldVDOM?: VirtualDOM,
-  newVDOM?: VirtualDOM,
+  oldVDOM?: VirtualDOM | null,
+  newVDOM?: VirtualDOM | null,
   idx = 0,
 ) {
   if (newVDOM == undefined) {
@@ -29,7 +30,14 @@ export default function updateDOM(
 
   const { node: newNode } = newVDOM
   const { node: oldNode } = oldVDOM
+
   if (!checkIsTextNode(newNode) && !checkIsTextNode(oldNode)) {
+    updateAttributes(
+      $parent.childNodes[idx] as Element,
+      newNode.props ?? {},
+      oldNode.props ?? {},
+    )
+
     const length = Math.max(
       newNode.children?.length ?? 0,
       oldNode.children?.length ?? 0,
@@ -49,4 +57,26 @@ export default function updateDOM(
   }
 
   return false
+}
+
+function updateAttributes(
+  target: Element,
+  newProps: Record<string, unknown>,
+  oldProps: Record<string, unknown>,
+) {
+  for (const [attr, value] of Object.entries(newProps)) {
+    if (oldProps[attr] === newProps[attr]) continue
+    ;(target as any)[attr] = value
+  }
+
+  for (const attr of Object.keys(oldProps)) {
+    if (newProps[attr] !== undefined) continue
+    if (attr.startsWith('on')) {
+      ;(target as any)[attr] = null
+    } else if (attr.startsWith('class')) {
+      target.removeAttribute('class')
+    } else {
+      target.removeAttribute(attr)
+    }
+  }
 }

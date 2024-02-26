@@ -1,7 +1,7 @@
 import { Component } from '@/libs/jsx/jsx-runtime'
 import Home from '@/pages/Home'
 import Result from '@/pages/Result'
-import Survey from '@/pages/Survey'
+import SurveyPage from '@/pages/Survey'
 
 interface Route {
   path: string
@@ -10,8 +10,9 @@ interface Route {
 }
 
 const routes: Route[] = [
-  { path: '/', view: Home },
-  { path: '/survey/:id', view: Survey },
+  { path: '/home', view: Home },
+  { path: '/', view: SurveyPage },
+  { path: '/survey/:id', view: SurveyPage },
   { path: '/result', view: Result },
 ]
 

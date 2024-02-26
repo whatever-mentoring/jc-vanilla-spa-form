@@ -1,6 +1,6 @@
 import { VirtualDOM, TextNode } from '../types'
 
-export const checkIsTextNode = (element: VirtualDOM): element is TextNode => {
+export function checkIsTextNode(element: VirtualDOM): element is TextNode {
   if (Array.isArray(element)) {
     return true
   }

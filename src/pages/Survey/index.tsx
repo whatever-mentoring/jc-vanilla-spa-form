@@ -68,7 +68,7 @@ const SurveyPage: Component<PageProps> = ({ pageParams }) => {
       [id]: {
         ...currentData,
         value: val,
-        hasError: currentData.required ? checkHasError(type, val) : false,
+        hasError: currentData.required ? validate(type, val) : false,
       },
     })
   }
@@ -96,24 +96,23 @@ const SurveyPage: Component<PageProps> = ({ pageParams }) => {
   }
 
   const goNext = () => {
-    let hasError = false
-    for (const id in inputData) {
-      const data = inputData[id]
-      if (data.required) {
-        if (checkHasError(data.type, data.value)) {
-          hasError = true
-          data.hasError = true
-        }
-      }
-    }
+    const { newInputData, hasError } = checkHasError(inputData)
     if (hasError) {
+      setInputData({ ...inputData, ...newInputData })
       return
     }
+
     save()
     Router.push(`/survey/${sectionData.nextId}`)
   }
 
   const submit = () => {
+    const { newInputData, hasError } = checkHasError(inputData)
+    if (hasError) {
+      setInputData({ ...inputData, ...newInputData })
+      return
+    }
+
     save()
     Router.push(`/result`)
   }
@@ -188,13 +187,31 @@ const SurveyPage: Component<PageProps> = ({ pageParams }) => {
 
 export default SurveyPage
 
-const checkHasError = (type: QuestionType, value: string[]): boolean => {
+const validate = (type: QuestionType, value: string[]): boolean => {
   switch (type) {
     case 'textarea':
-      return value[0].length < 1
+      return value[0] ? value[0].length > 0 : false
     case 'checkbox':
     case 'radio':
     case 'select':
-      return value.length < 1
+      return value.length > 0
   }
+}
+
+function checkHasError(inputData: SurveyValue) {
+  let hasError = false
+  const newInputData: SurveyValue = {}
+  for (const id in inputData) {
+    const data = inputData[id]
+    if (data.required) {
+      if (!validate(data.type, data.value)) {
+        hasError = true
+        newInputData[id] = {
+          ...data,
+          hasError: true,
+        }
+      }
+    }
+  }
+  return { newInputData, hasError }
 }

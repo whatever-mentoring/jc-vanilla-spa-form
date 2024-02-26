@@ -20,6 +20,7 @@ const Textarea: Component<Props> = ({
   type,
   title,
   inputData,
+  required,
   onInput,
 }) => {
   const handleInput = (e: InputEvent) => {
@@ -36,7 +37,8 @@ const Textarea: Component<Props> = ({
     inputData && (
       <Card hasError={inputData.hasError}>
         <h3 className={commonStyles.title}>
-          {title} <span className={commonStyles.asterisk}>*</span>
+          {title}
+          {required && <span className={commonStyles.asterisk}>*</span>}
         </h3>
         <div>
           <textarea

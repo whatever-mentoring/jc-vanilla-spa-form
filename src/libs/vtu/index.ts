@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component } from '@/libs/jsx/jsx-runtime'
 
-import { PageProps, VirtualDOM } from './types'
+import { PageProps } from './types'
 import updateDOM from './updateDOM'
 import shallowEqual from './utils/shallowEquals'
 
 interface ValueObject {
   states: any[]
   stateIndex: number
-  dependencies: any[][]
+  dependencies: (any[] | undefined)[]
   depsIndex: number
   effectList: (() => void)[]
 }
@@ -17,8 +17,8 @@ interface RenderObject {
   root?: Component<PageProps>
   $parent?: HTMLElement
   pageParams?: string[]
-  currentVDOM?: VirtualDOM
-  futureVDOM?: VirtualDOM
+  currentVDOM?: JSX.Element
+  futureVDOM?: JSX.Element
 }
 
 function valueToUI() {
@@ -33,19 +33,21 @@ function valueToUI() {
   const renderInfo: RenderObject = {}
 
   function _render() {
+    values.stateIndex = 0
+    values.depsIndex = 0
+    values.effectList = []
     renderInfo.futureVDOM = renderInfo.root?.({
       pageParams: renderInfo.pageParams,
     })
+
     updateDOM(
       renderInfo.$parent as ChildNode,
       renderInfo.currentVDOM,
       renderInfo.futureVDOM,
     )
+
     renderInfo.currentVDOM = renderInfo.futureVDOM
-    values.stateIndex = 0
     values.effectList.forEach((effect) => effect())
-    values.effectList = []
-    values.depsIndex = 0
   }
 
   function render(
@@ -80,7 +82,9 @@ function valueToUI() {
       }
 
       values.states[index] = newState
-      _render()
+      queueMicrotask(() => {
+        _render()
+      })
     }
 
     values.stateIndex += 1
@@ -88,22 +92,22 @@ function valueToUI() {
     return [state, setState] as [T, (newState: T) => void]
   }
 
-  function useEffect(callback: () => void, dependencies: any[]) {
+  function useEffect(callback: () => void, dependencies?: any[]) {
     const index = values.depsIndex
-    values.effectList[index] = () => {
+    values.effectList.push(() => {
       const oldDependencies = values.dependencies[index]
       let hasChanged = true
       if (oldDependencies) {
-        hasChanged = dependencies.some((val, idx) => {
-          return !shallowEqual(val, oldDependencies[idx])
-        })
+        hasChanged =
+          dependencies?.some((val, idx) => {
+            return !shallowEqual(val, oldDependencies[idx])
+          }) ?? true
       }
-
       if (hasChanged) {
         values.dependencies[index] = dependencies
         callback()
       }
-    }
+    })
     values.depsIndex += 1
   }
 

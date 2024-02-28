@@ -1,0 +1,40 @@
+.textArea {
+  border: 0;
+  resize: none;
+  overflow-y: hidden;
+  height: auto;
+  width: 100%;
+  padding: 6px 0;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  line-height: 20px;
+  font-family: sans-serif;
+  color: rgb(32, 33, 36);
+}
+.textArea:focus {
+  outline: none;
+}
+.textArea[contenteditable='true']:empty:before {
+  cursor: text;
+  content: attr(placeholder);
+  color: #aaa;
+}
+.bottomLine {
+  height: 3px;
+  transition: all 0.3s ease;
+  border-top: 1px solid #ddd;
+}
+
+.bottomLine.error {
+  border-top-color: #d33;
+}
+
+.textArea:focus + .bottomLine {
+  background-color: rgb(103, 58, 183);
+  border-top: none;
+}
+
+.textArea:focus + .bottomLine.error {
+  background-color: #d33;
+}

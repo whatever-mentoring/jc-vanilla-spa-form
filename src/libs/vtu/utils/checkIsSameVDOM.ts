@@ -1,6 +1,5 @@
 import { VirtualDOM } from '../types'
 import { checkIsTextNode } from './checkIsTextNode'
-import shallowEqual from './shallowEquals'
 
 export function checkIsSameVDOM(current: VirtualDOM, future: VirtualDOM) {
   const { node: currentNode } = current
@@ -19,10 +18,6 @@ export function checkIsSameVDOM(current: VirtualDOM, future: VirtualDOM) {
   }
 
   if (currentNode.tag !== futureNode.tag) {
-    return false
-  }
-
-  if (!shallowEqual(currentNode.props, futureNode.props)) {
     return false
   }
 

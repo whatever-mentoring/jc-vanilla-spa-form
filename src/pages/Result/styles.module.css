@@ -1,0 +1,41 @@
+.container {
+  margin: auto;
+  max-width: 90vw;
+  width: 640px;
+}
+
+.titleWrapper {
+  position: relative;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.topBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10px;
+  width: 100%;
+  background-color: rgb(103, 58, 183);
+}
+
+.title {
+  margin: 0;
+  font-size: 24pt;
+  padding: 24px;
+  padding-bottom: 12px;
+  font-weight: 400;
+  border-bottom: 1px solid #ddd;
+}
+
+.result {
+  padding: 12px 24px;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.goToFirst {
+  display: inline-block;
+  padding: 12px 24px;
+}

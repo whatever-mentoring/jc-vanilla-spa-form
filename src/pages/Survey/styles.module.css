@@ -1,0 +1,64 @@
+.container {
+  margin: auto;
+  max-width: 90vw;
+  width: 640px;
+}
+
+.titleWrapper {
+  position: relative;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.topBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10px;
+  width: 100%;
+  background-color: rgb(103, 58, 183);
+}
+
+.title {
+  margin: 0;
+  font-size: 24pt;
+  padding: 24px;
+  padding-bottom: 12px;
+  font-weight: 400;
+  border-bottom: 1px solid #ddd;
+}
+
+.warning {
+  padding: 12px 24px;
+  margin: 0;
+  color: #d55;
+  font-size: 14px;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.navButton {
+  height: 36px;
+  line-height: 36px;
+  padding: 0 24px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.submitButton {
+  height: 36px;
+  line-height: 36px;
+  padding: 0 24px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  background-color: rgb(103, 58, 183);
+  cursor: pointer;
+}

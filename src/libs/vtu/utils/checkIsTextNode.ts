@@ -5,13 +5,9 @@ export const checkIsTextNode = (element: VirtualDOM): element is TextNode => {
     return true
   }
 
-  if (typeof element === 'string' || typeof element === 'number') {
-    return true
+  if (typeof element === 'object' && element != null && element.tag) {
+    return false
   }
 
-  if (!element.tag) {
-    return true
-  }
-
-  return false
+  return true
 }

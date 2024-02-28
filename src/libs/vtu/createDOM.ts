@@ -4,10 +4,10 @@ import { VirtualDOM } from './types'
 
 const createDOM = (node: VirtualDOM): HTMLElement | Text => {
   if (checkIsTextNode(node)) {
-    if (typeof node === 'object') {
+    if (typeof node === 'object' && node != null) {
       return document.createTextNode(JSON.stringify(node))
     }
-    return document.createTextNode(node.toString())
+    return document.createTextNode(node == null ? '' : node.toString())
   }
 
   const element = document.createElement(node.tag)
